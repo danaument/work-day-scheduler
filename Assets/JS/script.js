@@ -14,22 +14,27 @@ console.log(todayKey);
 
 //access session storage to build out current day object
 
-var fetchDayObj = function(key) {
-    var todayDataObj = sessionStorage.getItem(key);
-    return todayDataObj;
-}
+// var fetchDayObj = function(key) {
+//     var todayDataObj = (key));
+//     console.log(todayDataObj);
+// }
+
+// fetchDayObj();
 
 var buildTodayObj = function() {
-    var todayDataObj = fetchDayObj(todayKey);
+    var storedTodayStr = sessionStorage.getItem(todayKey)
+    var todayDataObj = JSON.parse(storedTodayStr);
     if (todayDataObj === null) {
-        console.log("todayDataObj was null");
+        console.log("todayDataObj was null.");
         todayDataObj = {};
         newBlankObj = JSON.stringify(todayDataObj);
         sessionStorage.setItem(todayKey, newBlankObj);
     } else {
-        console.log("todayDataObj was " + todayDataObj);
+        console.log(todayDataObj);
     }
 };
+
+todayDataObj = {"9AM": "test"};
 
 // var templateTester = function() {
 //     var testDiv = $("<p>");
@@ -52,20 +57,20 @@ var timeBlockRender = function() {
             var colorClass = ("future")
         }
         var timeBlockEl = $("<div>");
-        var formattedHour = moment(i, "H").format("h a");
+        var formattedHour = moment(i, "H").format("hA");
         timeBlockEl.html(`
         <div class="input-group mb-3 time-block">
             <div class="input-group-prepend textarea">
                 <span class="input-group-text hour description">${formattedHour}</span>
             </div>
-            <input type="text" class="form-control row ${colorClass}" placeholder="" aria-label="Recipient's username" aria-describedby="button-addon2" value="">
+            <input type="text" class="form-control row ${colorClass}" id="input${formattedHour}" placeholder="" aria-label="Time slot data" aria-describedby="button-addon2" value="">
             <div class="input-group-append">
-                <button class="btn btn-outline-secondary saveBtn" type="button" id="button-addon2">Button</button>
+                <button class="btn btn-outline-secondary saveBtn" type="button" id="btn${formattedHour}">Save</button>
             </div>
         </div>
         `)
         $('.container').append(timeBlockEl);
-        console.log(`loop ${i} complete`)
+        // console.log(`loop ${i} complete`)
 
         //  set colorclass variable to "past" class, etc
         // fill out values with info from current day object?
@@ -73,13 +78,13 @@ var timeBlockRender = function() {
     }    
 }
     
-// var addStoredData = function () {
-//     for (i = 9; i < 18, i++) {
-
-//     }
-// }
-
 //fill out values with info from current day object?
+var renderSavedContents = function () {
+    Object.keys(todayDataObj).forEach(function(key)  {
+        console.log(key, todayDataObj[key]);
+        $(`#input${key}`).val() = todayDataObj[key];
+    })
+}
 
 //save button function
 
@@ -118,4 +123,18 @@ var timeBlockRender = function() {
 $(document).ready(() => {
     buildTodayObj();
     timeBlockRender();
+    renderSavedContents();
+
+    $(".saveBtn").click(function(e) {
+        e.preventDefault();
+        var clickedBtnId = e.target.id
+        var targetTime = clickedBtnId.substr(3);
+        var inputString = "input"
+        var inputFieldToBeSaved = inputString.concat(targetTime);
+        // alert(clickedBtnId + " was clicked and the input value was " + inputFieldToBeSaved);
+        var inputValue = $('#' + inputFieldToBeSaved).val();
+        // alert(inputValue)
+        todayDataObj[targetTime] = inputValue;
+        
+    })
 })
