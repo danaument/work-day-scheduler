@@ -43,21 +43,22 @@ var buildTodayObj = function() {
 
 //template literal to build out page using current day object and momen
 var timeBlockRender = function() {
-    for (i = 9; i < 18; i++)
-        if (i < current24Hour) {
-            var colorClass = (".past")
-        } else if (i = current24Hour) {
-            var colorClass = (".present")
+    for (i = 9; i < 18; i++) {
+        if (i < parseInt(current24Hour)) {
+            var colorClass = ("past")
+        } else if (i === parseInt(current24Hour)) {
+            var colorClass = ("present")
         } else {
-            var colorClass = (".future")
+            var colorClass = ("future")
         }
         var timeBlockEl = $("<div>");
+        var formattedHour = moment(i, "H").format("h a");
         timeBlockEl.html(`
         <div class="input-group mb-3 time-block">
             <div class="input-group-prepend textarea">
-                <span class="input-group-text hour description">9AM</span>
+                <span class="input-group-text hour description">${formattedHour}</span>
             </div>
-            <input type="text" class="form-control row" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2" value="potatoes">
+            <input type="text" class="form-control row ${colorClass}" placeholder="" aria-label="Recipient's username" aria-describedby="button-addon2" value="">
             <div class="input-group-append">
                 <button class="btn btn-outline-secondary saveBtn" type="button" id="button-addon2">Button</button>
             </div>
@@ -69,9 +70,14 @@ var timeBlockRender = function() {
         //  set colorclass variable to "past" class, etc
         // fill out values with info from current day object?
         // template
+    }    
 }
     
+// var addStoredData = function () {
+//     for (i = 9; i < 18, i++) {
 
+//     }
+// }
 
 //fill out values with info from current day object?
 
@@ -111,5 +117,5 @@ var timeBlockRender = function() {
 //the good stuff
 $(document).ready(() => {
     buildTodayObj();
-    // timeBlockRender();
+    timeBlockRender();
 })
