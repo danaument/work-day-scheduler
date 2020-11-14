@@ -32,7 +32,7 @@ var timeBlockRender = function() {
         timeBlockEl.html(`
         <div class="input-group time-block row">
             <div class="input-group-prepend ">
-                <span class="input-group-text hour description prepend-span-width">${formattedHour}</span>
+                <span class="hour description prepend-span-width">${formattedHour}</span>
             </div>
             <textarea type="text" class="form-control ${colorClass} row" id="input${timeStamp}" placeholder="" aria-label="Time slot data" aria-describedby="button-addon2" value="${inputValue}">${inputValue}</textarea>
             <div class="input-group-append">
@@ -43,9 +43,6 @@ var timeBlockRender = function() {
         $('.container').append(timeBlockEl);
     }    
 }
-    
-// <textarea class="form-control ${colorClass}" id="input${timeStamp}" rows="3"></textarea>
-
 
 //the good stuff
 $(document).ready(() => {

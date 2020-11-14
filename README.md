@@ -19,7 +19,9 @@ https://danaument.github.io/work-day-scheduler/
 
 ### <a name="Notes">Notes from Dan:  </a>
 
-This assignment took me considerably less time to complete than previous assignments.  I had some issues understanding how and where to use some of the CSS class styles that were provided with the assignment.  
+This assignment took me considerably less time to complete than previous assignments.  I had some issues understanding how and where to use some of the CSS class styles that were provided with the assignment. I ended up modifying them somewhat to make my app look as close to the provided gif as possible.  
+
+I had originally intended to include all of my saved data values in session storage within an object, where each day got an object.  Perhaps I will add multiday support at some point in the future.
 
 ### <a name="Credits">Credits: </a>
 This project was completed by Dan Aument using code and assets provided by The Coding Boot Camp at UT Austin in partnership with Trilogy Education Services. 
