@@ -34,7 +34,7 @@ var timeBlockRender = function() {
             <div class="input-group-prepend ">
                 <span class="input-group-text hour description prepend-span-width">${formattedHour}</span>
             </div>
-            <input type="text" class="form-control ${colorClass} row" id="input${timeStamp}" placeholder="" aria-label="Time slot data" aria-describedby="button-addon2" value="${inputValue}">
+            <textarea type="text" class="form-control ${colorClass} row" id="input${timeStamp}" placeholder="" aria-label="Time slot data" aria-describedby="button-addon2" value="${inputValue}">${inputValue}</textarea>
             <div class="input-group-append">
                 <button class="btn btn-outline-secondary saveBtn" type="button" id="btn${timeStamp}">Save</button>
             </div>
