@@ -2,7 +2,7 @@
 
 //moment.js to set current day in jumbotron
 
-var today = moment().format('dddd, MMMM Do')
+var today = moment().format('dddd, MMMM Do, YYYY')
 console.log(today);
     //also set current hour
 var currentHour = moment().format('h a');
@@ -11,6 +11,9 @@ var current24Hour = moment().format('H');
 console.log(current24Hour);
 var todayKey = moment().format('YYYYMMDD');
 console.log(todayKey);
+
+$('#currentDay').html(today);
+
 
 //access session storage to build out current day object
 
@@ -21,20 +24,20 @@ console.log(todayKey);
 
 // fetchDayObj();
 
-var buildTodayObj = function() {
-    var storedTodayStr = sessionStorage.getItem(todayKey)
-    var todayDataObj = JSON.parse(storedTodayStr);
-    if (todayDataObj === null) {
-        console.log("todayDataObj was null.");
-        todayDataObj = {};
-        newBlankObj = JSON.stringify(todayDataObj);
-        sessionStorage.setItem(todayKey, newBlankObj);
-    } else {
-        console.log(todayDataObj);
-    }
-};
+// var buildTodayObj = function() {
+//     var storedTodayStr = sessionStorage.getItem(todayKey)
+//     var todayDataObj = JSON.parse(storedTodayStr);
+//     if (todayDataObj === null) {
+//         console.log("todayDataObj was null.");
+//         todayDataObj = {};
+//         newBlankObj = JSON.stringify(todayDataObj);
+//         sessionStorage.setItem(todayKey, newBlankObj);
+//     } else {
+//         console.log(todayDataObj);
+//     }
+// };
 
-todayDataObj = {"9AM": "test"};
+// todayDataObj = {"9AM": "test"};
 
 // var templateTester = function() {
 //     var testDiv = $("<p>");
@@ -44,6 +47,9 @@ todayDataObj = {"9AM": "test"};
 // }
 
 // templateTester();
+
+sessionStorage.setItem('2020111310AM', 'tester');
+console.log(sessionStorage.getItem('202011139AM'));
 
 
 //template literal to build out page using current day object and momen
@@ -58,14 +64,22 @@ var timeBlockRender = function() {
         }
         var timeBlockEl = $("<div>");
         var formattedHour = moment(i, "H").format("hA");
+        var timeFromLead = $('#currentDay').html();
+        timeFromLead = moment(timeFromLead, 'dddd, MMMM Do, YYYY').format('YYYYMMDD')
+        var timeStamp = timeFromLead.concat(formattedHour);
+        if (sessionStorage.getItem(timeStamp) === null) {
+            var inputValue = "";
+        } else {
+            var inputValue = sessionStorage.getItem(timeStamp);
+        }
         timeBlockEl.html(`
         <div class="input-group mb-3 time-block">
             <div class="input-group-prepend textarea">
                 <span class="input-group-text hour description">${formattedHour}</span>
             </div>
-            <input type="text" class="form-control row ${colorClass}" id="input${formattedHour}" placeholder="" aria-label="Time slot data" aria-describedby="button-addon2" value="">
+            <input type="text" class="form-control row ${colorClass}" id="input${timeStamp}" placeholder="" aria-label="Time slot data" aria-describedby="button-addon2" value="${inputValue}">
             <div class="input-group-append">
-                <button class="btn btn-outline-secondary saveBtn" type="button" id="btn${formattedHour}">Save</button>
+                <button class="btn btn-outline-secondary saveBtn" type="button" id="btn${timeStamp}">Save</button>
             </div>
         </div>
         `)
@@ -79,12 +93,12 @@ var timeBlockRender = function() {
 }
     
 //fill out values with info from current day object?
-var renderSavedContents = function () {
-    Object.keys(todayDataObj).forEach(function(key)  {
-        console.log(key, todayDataObj[key]);
-        $(`#input${key}`).val() = todayDataObj[key];
-    })
-}
+// var renderSavedContents = function () {
+//     Object.keys(todayDataObj).forEach(function(key)  {
+//         console.log(key, todayDataObj[key]);
+//         $(`#input${key}`).val() = todayDataObj[key];
+//     })
+// }
 
 //save button function
 
@@ -121,20 +135,18 @@ var renderSavedContents = function () {
 
 //the good stuff
 $(document).ready(() => {
-    buildTodayObj();
+    // buildTodayObj();
     timeBlockRender();
-    renderSavedContents();
+    // renderSavedContents();
 
     $(".saveBtn").click(function(e) {
         e.preventDefault();
         var clickedBtnId = e.target.id
-        var targetTime = clickedBtnId.substr(3);
+        var targetTimeStamp = clickedBtnId.substr(3);
         var inputString = "input"
-        var inputFieldToBeSaved = inputString.concat(targetTime);
+        var inputFieldToBeSaved = inputString.concat(targetTimeStamp);
         // alert(clickedBtnId + " was clicked and the input value was " + inputFieldToBeSaved);
         var inputValue = $('#' + inputFieldToBeSaved).val();
-        // alert(inputValue)
-        todayDataObj[targetTime] = inputValue;
-        
+        sessionStorage.setItem(targetTimeStamp, inputValue);
     })
 })
