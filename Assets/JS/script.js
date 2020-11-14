@@ -1,10 +1,5 @@
-//DOM pointers
-
-//moment.js to set current day in jumbotron
-
 var today = moment().format('dddd, MMMM Do, YYYY')
 console.log(today);
-    //also set current hour
 var currentHour = moment().format('h a');
 console.log(currentHour);
 var current24Hour = moment().format('H');
@@ -13,44 +8,6 @@ var todayKey = moment().format('YYYYMMDD');
 console.log(todayKey);
 
 $('#currentDay').html(today);
-
-
-//access session storage to build out current day object
-
-// var fetchDayObj = function(key) {
-//     var todayDataObj = (key));
-//     console.log(todayDataObj);
-// }
-
-// fetchDayObj();
-
-// var buildTodayObj = function() {
-//     var storedTodayStr = sessionStorage.getItem(todayKey)
-//     var todayDataObj = JSON.parse(storedTodayStr);
-//     if (todayDataObj === null) {
-//         console.log("todayDataObj was null.");
-//         todayDataObj = {};
-//         newBlankObj = JSON.stringify(todayDataObj);
-//         sessionStorage.setItem(todayKey, newBlankObj);
-//     } else {
-//         console.log(todayDataObj);
-//     }
-// };
-
-// todayDataObj = {"9AM": "test"};
-
-// var templateTester = function() {
-//     var testDiv = $("<p>");
-//     testDiv.html(`Today's date is ${today}.`);
-//     $('.container').append(testDiv);
-
-// }
-
-// templateTester();
-
-sessionStorage.setItem('2020111310AM', 'tester');
-console.log(sessionStorage.getItem('202011139AM'));
-
 
 //template literal to build out page using current day object and momen
 var timeBlockRender = function() {
@@ -73,71 +30,27 @@ var timeBlockRender = function() {
             var inputValue = sessionStorage.getItem(timeStamp);
         }
         timeBlockEl.html(`
-        <div class="input-group mb-3 time-block">
-            <div class="input-group-prepend textarea">
-                <span class="input-group-text hour description">${formattedHour}</span>
+        <div class="input-group time-block row">
+            <div class="input-group-prepend ">
+                <span class="input-group-text hour description prepend-span-width">${formattedHour}</span>
             </div>
-            <input type="text" class="form-control row ${colorClass}" id="input${timeStamp}" placeholder="" aria-label="Time slot data" aria-describedby="button-addon2" value="${inputValue}">
+            <input type="text" class="form-control ${colorClass} row" id="input${timeStamp}" placeholder="" aria-label="Time slot data" aria-describedby="button-addon2" value="${inputValue}">
             <div class="input-group-append">
                 <button class="btn btn-outline-secondary saveBtn" type="button" id="btn${timeStamp}">Save</button>
             </div>
         </div>
         `)
         $('.container').append(timeBlockEl);
-        // console.log(`loop ${i} complete`)
-
-        //  set colorclass variable to "past" class, etc
-        // fill out values with info from current day object?
-        // template
     }    
 }
     
-//fill out values with info from current day object?
-// var renderSavedContents = function () {
-//     Object.keys(todayDataObj).forEach(function(key)  {
-//         console.log(key, todayDataObj[key]);
-//         $(`#input${key}`).val() = todayDataObj[key];
-//     })
-// }
-
-//save button function
-
-// var printSkills = function (name, date) {
-//     var listEl = $('<li>');
-//     var listDetail = name.concat(' on ', date);
-//     listEl.addClass('list-group-item').text(listDetail);
-//     listEl.appendTo(skillsListEl);
-// };
-
-// var handleFormSubmit = function (event) {
-//     event.preventDefault();
-  
-//     var nameInput = nameInputEl.val();
-//     var dateInput = dateInputEl.val();
-  
-//     if (!nameInput || !dateInput) {
-//       console.log('You need to fill out the form!');
-//       return;
-//     }
-  
-//     printSkills(nameInput, dateInput);
-  
-//     // resets form
-//     nameInputEl.val('');
-//     dateInputEl.val('');
-// };
-  
-// formEl.on('submit', handleFormSubmit);
-
-//write current day object to session storage function
-
+// <textarea class="form-control ${colorClass}" id="input${timeStamp}" rows="3"></textarea>
 
 
 //the good stuff
 $(document).ready(() => {
-    // buildTodayObj();
+    
     timeBlockRender();
-    // renderSavedContents();
 
     $(".saveBtn").click(function(e) {
         e.preventDefault();
