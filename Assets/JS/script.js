@@ -24,10 +24,10 @@ var timeBlockRender = function() {
         var timeFromLead = $('#currentDay').html();
         timeFromLead = moment(timeFromLead, 'dddd, MMMM Do, YYYY').format('YYYYMMDD')
         var timeStamp = timeFromLead.concat(formattedHour);
-        if (sessionStorage.getItem(timeStamp) === null) {
+        if (localStorage.getItem(timeStamp) === null) {
             var inputValue = "";
         } else {
-            var inputValue = sessionStorage.getItem(timeStamp);
+            var inputValue = localStorage.getItem(timeStamp);
         }
         timeBlockEl.html(`
         <div class="input-group time-block row">
@@ -57,6 +57,6 @@ $(document).ready(() => {
         var inputFieldToBeSaved = inputString.concat(targetTimeStamp);
         // alert(clickedBtnId + " was clicked and the input value was " + inputFieldToBeSaved);
         var inputValue = $('#' + inputFieldToBeSaved).val();
-        sessionStorage.setItem(targetTimeStamp, inputValue);
+        localStorage.setItem(targetTimeStamp, inputValue);
     })
 })
